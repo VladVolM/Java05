@@ -5,17 +5,20 @@
  */
 package Vistas;
 
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author alumno
  */
 public class InicioSesion extends javax.swing.JPanel {
-
+    boolean bandera=true;
     /**
      * Creates new form InicioSesion
      */
     public InicioSesion() {
         initComponents();
+        contraTextField.setEditable(false);
     }
 
     /**
@@ -27,19 +30,99 @@ public class InicioSesion extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        usuarioTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        contraTextField = new javax.swing.JTextField();
+
+        jLabel1.setText("Usuario:");
+        jLabel1.setMaximumSize(new java.awt.Dimension(88, 15));
+        jLabel1.setMinimumSize(new java.awt.Dimension(88, 15));
+        jLabel1.setPreferredSize(new java.awt.Dimension(88, 15));
+
+        usuarioTextField.setMaximumSize(new java.awt.Dimension(270, 19));
+        usuarioTextField.setMinimumSize(new java.awt.Dimension(270, 19));
+        usuarioTextField.setPreferredSize(new java.awt.Dimension(270, 19));
+        usuarioTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usuarioTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Contraseña:");
+
+        contraTextField.setMaximumSize(new java.awt.Dimension(270, 19));
+        contraTextField.setMinimumSize(new java.awt.Dimension(270, 19));
+        contraTextField.setPreferredSize(new java.awt.Dimension(270, 19));
+        contraTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contraTextFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(contraTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(usuarioTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(usuarioTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(contraTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void usuarioTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioTextFieldActionPerformed
+        // TODO add your handling code here:
+        if(!"".equals(usuarioTextField.getText())){
+            contraTextField.setEditable(true);
+            contraTextField.requestFocus();
+            usuarioTextField.setEditable(false);
+        }
+            
+    }//GEN-LAST:event_usuarioTextFieldActionPerformed
+
+    private void contraTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contraTextFieldActionPerformed
+        // TODO add your handling code here:
+        
+        contraTextField.setEditable(false);
+        usuarioTextField.requestFocus();
+        usuarioTextField.setEditable(true);
+        
+        
+        if(!"".equals(contraTextField.getText())){
+            /////Conexion
+            /////Validacion
+            //((Menu)SwingUtilities.getWindowAncestor(this)).setBC(,);//para ver visualizar
+            ((Menu)SwingUtilities.getWindowAncestor(this)).verB();//para ver visualizar
+            usuarioTextField.setText("");
+            contraTextField.setText("");
+        }
+    }//GEN-LAST:event_contraTextFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField contraTextField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField usuarioTextField;
     // End of variables declaration//GEN-END:variables
 }
