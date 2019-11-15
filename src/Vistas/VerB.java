@@ -47,10 +47,16 @@ public class VerB extends javax.swing.JPanel {
         jLabel1.setPreferredSize(new java.awt.Dimension(54, 15));
 
         jTextField1.setText("jTextField1");
+        jTextField1.setEnabled(false);
+        jTextField1.setMinimumSize(new java.awt.Dimension(152, 19));
+        jTextField1.setPreferredSize(new java.awt.Dimension(152, 19));
 
         jLabel2.setText("Codigo:");
 
         jTextField2.setText("jTextField2");
+        jTextField2.setEnabled(false);
+        jTextField2.setMinimumSize(new java.awt.Dimension(152, 19));
+        jTextField2.setPreferredSize(new java.awt.Dimension(152, 19));
 
         jLabel3.setText("Fecha:");
         jLabel3.setMaximumSize(new java.awt.Dimension(54, 15));
@@ -65,6 +71,8 @@ public class VerB extends javax.swing.JPanel {
         jLabel5.setText("URL Imagen:");
 
         jTextField3.setText("jTextField3");
+        jTextField3.setMinimumSize(new java.awt.Dimension(258, 19));
+        jTextField3.setPreferredSize(new java.awt.Dimension(258, 19));
 
         jButton1.setText("Guardar");
 
@@ -88,9 +96,9 @@ public class VerB extends javax.swing.JPanel {
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                            .addComponent(jTextField2)
-                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -98,7 +106,7 @@ public class VerB extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField3))
+                                .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton2)
                                 .addGap(18, 18, 18)
