@@ -10,5 +10,6 @@ package Modelo;
  * @author alumno
  */
 public class DTabla {
-    
+    int codigo;
+    int porcentaje;
 }

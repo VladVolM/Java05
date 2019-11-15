@@ -5,10 +5,16 @@
  */
 package Modelo;
 
+import java.util.GregorianCalendar;
+
 /**
  *
  * @author alumno
  */
 public class BTabla {
+    String NIF;
+    int codigo;
+    String nombreImagen;
+    GregorianCalendar fecha;
     
 }

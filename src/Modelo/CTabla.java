@@ -10,5 +10,8 @@ package Modelo;
  * @author alumno
  */
 public class CTabla {
-    
+    int codB;
+    int codD;
+    int contador;
+    float valorCalculado;
 }
