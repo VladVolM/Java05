@@ -6,10 +6,8 @@
 package Vistas;
 
 import Controlador.Validacion;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,22 +17,26 @@ public class Menu extends javax.swing.JFrame {
     InicioSesion in;
     VerB b;
     VerC c;
+    boolean f = false;
     /**
      * Creates new form Menu
      */
     public Menu() {
         initComponents();
         jMenuBar1.setVisible(false);
-        in = new InicioSesion();
-        this.setContentPane(in);
-        this.pack();
+        
         try {
-            new Validacion();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Validacion val = new Validacion();
+            f=val.isValidacion();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"La validacion devuelve error");
         }
+        if (f){
+            in = new InicioSesion();
+            this.setContentPane(in);
+            this.pack();
+        }else 
+            JOptionPane.showMessageDialog(null,"La validacion es erronea, no tiene permiso de uso");
     }
     
     public void setBC(VerB bb,VerC cc){

@@ -17,7 +17,11 @@ import java.sql.SQLException;
  * @author alumno
  */
 public class Validacion {
+    boolean validacion;
 
+    public boolean isValidacion() {
+        return validacion;
+    }
     public Validacion() throws ClassNotFoundException, SQLException {
         Connection conderby;
         String b = File.separator;
@@ -25,7 +29,7 @@ public class Validacion {
         File url = new File(bdd);
         PreparedStatement ps,ps2;
         ResultSet rs,rs2;
-        boolean validacion = true,otro =true;
+        boolean otro =true;
         
         if(url.exists()){
             System.out.println("La base de datos derby ya existe");
