@@ -5,6 +5,10 @@
  */
 package Vistas;
 
+import Controlador.Validacion;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 
 /**
@@ -24,6 +28,13 @@ public class Menu extends javax.swing.JFrame {
         in = new InicioSesion();
         this.setContentPane(in);
         this.pack();
+        try {
+            new Validacion();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void setBC(VerB bb,VerC cc){

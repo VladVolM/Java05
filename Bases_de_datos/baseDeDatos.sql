@@ -26,30 +26,11 @@ insert into BTable values('567890123', 456, 'imagen2', '11/11/2011');
 insert into BTable values('567890123', 789, 'imagen1', '7/23/2018' );
 insert into BTable values('567890123', 0  , 'imagen2', '9/9/2017'  );
 
-
-drop table CTable cascade;
-create table CTable(
-	codB 				integer,
-	codD 				integer,
-	contador 			integer,
-	calculo			 	float(2),
-	constraint PK_CONTADOR primary key (contador),
-	constraint FK_B foreign key (codB) references BTable,
-	constraint FK_D foreign key (codD) references DTable
-	);
-insert into CTable values(123, 7, 1, 30);
-insert into CTable values(123, 2, 2, 30);
-insert into CTable values(123, 4, 3, 30);
-insert into CTable values(456, 6, 1, 30);
-insert into CTable values(789, 6, 1, 30);
-insert into CTable values(  9, 1, 1, 30);
-
-
 drop table DTable cascade;
 create table DTable(
 	codigo				integer,
 	descuento 			integer,
-	constraint PK_COD primary key (codigo)
+	constraint PK_COD2 primary key (codigo)
 	);
 insert into DTable values(1, 10);
 insert into DTable values(2, 18);
@@ -58,4 +39,22 @@ insert into DTable values(4, 34);
 insert into DTable values(5, 42);
 insert into DTable values(6, 50);
 insert into DTable values(7, 58);
+
+drop table CTable cascade;
+create table CTable(
+	codB 				integer,
+	codD 				integer,
+	contador 			integer,
+	calculo			 	float(2),
+	constraint PK_CONTADOR primary key (contador,codB,codD),
+	constraint FK_B foreign key (codB) references BTable,
+	constraint FK_D foreign key (codD) references DTable
+	);
+insert into CTable values(123, 7, 1, 30);
+insert into CTable values(123, 2, 2, 30);
+insert into CTable values(123, 4, 3, 30);
+insert into CTable values(456, 6, 1, 30);
+insert into CTable values(789, 6, 1, 30);
+insert into CTable values(  0, 1, 1, 30);
+
 
