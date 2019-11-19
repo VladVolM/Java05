@@ -5,17 +5,37 @@
  */
 package Vistas;
 
+import Controlador.Conexion;
+import Modelo.CTabla;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+
 /**
  *
  * @author alumno
  */
 public class VerC extends javax.swing.JPanel {
-
+    Collection<CTabla> tabla = new LinkedList<>();
     /**
      * Creates new form VerC
+     * @param c
+     * @throws java.sql.SQLException
      */
-    public VerC() {
+    public VerC(Collection<Integer> c) throws SQLException {
         initComponents();
+        Iterator itr = c.iterator();
+        while (itr.hasNext()){
+            PreparedStatement p = Conexion.getPS("select * from CTable where CodB=?");
+            p.setInt(1, (int)itr.next());//Funciona???
+            ResultSet rs = p.executeQuery();
+            if (rs.first()){
+                //crear objeto CTabla y añadirlo a la coleccion
+            }
+        }
     }
 
     /**

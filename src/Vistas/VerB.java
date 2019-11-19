@@ -5,17 +5,45 @@
  */
 package Vistas;
 
+import Controlador.Conexion;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  *
  * @author alumno
  */
 public class VerB extends javax.swing.JPanel {
+    private ResultSet rs;
+    private VerC c;
 
+    public VerC getC() {
+        return c;
+    }
     /**
      * Creates new form VerB
+     * @param nif
      */
-    public VerB() {
+    public VerB(String nif) throws SQLException {
         initComponents();
+        if(nif!=null){
+            PreparedStatement p = Conexion.getUpdatable("select * from BTable where nif =?");
+            p.setString(1, nif);
+            rs = p.executeQuery();
+            if (rs.first()){
+                Collection<Integer> coleccion = new LinkedList<>();
+                coleccion.add(rs.getInt(2));
+                while(rs.next()){
+                    coleccion.add(rs.getInt(2));
+                }
+                c=new VerC(coleccion);
+                
+            }else System.out.println("ERROR en VerB no existe B para tal usuario");
+            //crearVerC
+        }else System.out.println("ERROR en VerB no existe tal usuario");
     }
 
     /**

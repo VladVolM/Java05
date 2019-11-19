@@ -5,6 +5,8 @@
  */
 package Controlador;
 
+import Vistas.VerB;
+import Vistas.VerC;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +18,8 @@ import java.sql.SQLException;
  */
 public  class Conexion {
     private static Connection con;
+    private VerB b;
+    private VerC c;
     
     public static void realizarConexion(String usuario, String contraseña) throws ClassNotFoundException, SQLException {
         Class.forName("org.postgresql.Driver");
@@ -27,5 +31,15 @@ public  class Conexion {
 
     public static PreparedStatement getPS(String query) throws SQLException {
         return con.prepareStatement(query);
+    }
+    
+    public static VerB setVistasUsuaro(String us,String cod) throws SQLException{
+        PreparedStatement p = getUpdatable("select nif from ATable where usuario =? and contraseña = ? ");
+        p.setString(1, us);
+        p.setString(2, cod);
+        ResultSet r = p.executeQuery();
+        if (r.next())
+            return new VerB(r.getString(1));
+        return new VerB(null);
     }
 }

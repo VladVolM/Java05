@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * @author alumno
  */
 public class Validacion {
-    boolean validacion;
+    boolean validacion = true;
 
     public boolean isValidacion() {
         return validacion;

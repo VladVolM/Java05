@@ -39,9 +39,9 @@ public class Menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"La validacion es erronea, no tiene permiso de uso");
     }
     
-    public void setBC(VerB bb,VerC cc){
+    public void setBC(VerB bb){
         b=bb;
-        c=cc;
+        c=bb.getC();
     }
     
     public void verB(){
