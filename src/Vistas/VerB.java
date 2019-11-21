@@ -6,6 +6,7 @@
 package Vistas;
 
 import Controlador.Conexion;
+import Controlador.Validacion;
 import Modelo.BTabla;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -19,6 +20,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -49,6 +52,9 @@ public class VerB extends javax.swing.JPanel {
      */
     public VerB(String nif) throws SQLException {
         initComponents();
+
+        new Validacion(nif);
+
         if(nif!=null){
             recuerdaNif=nif;
             PreparedStatement p = Conexion.getUpdatable("select * from BTable where nif =?");
@@ -80,7 +86,6 @@ public class VerB extends javax.swing.JPanel {
         try {
             jTextField1.setText(rs.getString(1));
             jTextField2.setText(String.valueOf(rs.getInt(2)));
-        
             BufferedImage img;
             img = ImageIO.read(new File("IMAGENES/"+rs.getString(3)));//lectura buffer de imagen
             Image dimg = img.getScaledInstance(imageLabel.getPreferredSize().width, imageLabel.getPreferredSize().height,Image.SCALE_SMOOTH);//usar buffer para CAMBIAR TAMAÑO
@@ -141,7 +146,13 @@ public class VerB extends javax.swing.JPanel {
         imageLabel.setMinimumSize(new java.awt.Dimension(140, 140));
         imageLabel.setPreferredSize(new java.awt.Dimension(140, 140));
 
-        imageButton.setText("jButton5");
+        jXDatePicker1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePicker1ActionPerformed(evt);
+            }
+        });
+
+        imageButton.setText("Cambiar imagen");
         imageButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 imageButtonActionPerformed(evt);
@@ -247,7 +258,6 @@ public class VerB extends javax.swing.JPanel {
             File imagen = jFileChooser1.getSelectedFile();
             String pathImagen=imagen.getAbsolutePath();
             String stringNombreImagen= pathImagen.substring(pathImagen.lastIndexOf('/')+1);
-            System.out.println("NOMBRE DE IMAGEN-"+stringNombreImagen);
             Path orig = Paths.get(pathImagen);
             Path dest = Paths.get("IMAGENES/"+stringNombreImagen);
             try {
@@ -299,13 +309,19 @@ public class VerB extends javax.swing.JPanel {
                     coleccion.add(rs.getInt(2));
                 }
                 c=new VerC(coleccion,posB);
+                ((Menu)SwingUtilities.getWindowAncestor(this)).setBC(this);
 
             }else System.out.println("ERROR en VerB no existe B para tal usuario");
                 //crearVerC
             ((Menu)SwingUtilities.getWindowAncestor(this)).verC();//para ver C
+            
+            rs.beforeFirst();
+            while (rs.next() && rs.getInt(2)!=posB)
+            {}
         } catch (SQLException ex) {
             System.out.println("Error al verC");
         }
+        
     }//GEN-LAST:event_cButtonActionPerformed
 
     private void adelanteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adelanteButtonActionPerformed
@@ -320,6 +336,24 @@ public class VerB extends javax.swing.JPanel {
             System.out.println("error al moverse adelante");
         }
     }//GEN-LAST:event_adelanteButtonActionPerformed
+
+    private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            PreparedStatement p = Conexion.getUpdatable("update BTable set fechaLanzamiento=? where nif=? and codigo=?");
+        java.util.Date fechaApertura = jXDatePicker1.getDate();       
+        java.sql.Date dat = new java.sql.Date(fechaApertura.getTime());
+        p.setDate(1, dat);
+        p.setString(2, rs.getString(1));
+        p.setInt(3, rs.getInt(2));
+        if (p.executeUpdate()== 0) System.out.println("No se realizo el guardado de fecha");
+        
+            p.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(VerB.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error en fecha modificada de verB");
+        }
+    }//GEN-LAST:event_jXDatePicker1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

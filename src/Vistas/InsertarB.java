@@ -15,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -24,14 +26,13 @@ import javax.swing.SwingUtilities;
  * @author alumno
  */
 public class InsertarB extends javax.swing.JPanel {
-    String nif;
     /**
      * Creates new form InsertarB
      * @param n
      */
     public InsertarB(String n) {
         initComponents();
-        nif=n;
+        jTextField3.setText(n);
     }
 
     /**
@@ -167,7 +168,6 @@ public class InsertarB extends javax.swing.JPanel {
             File imagen = jFileChooser1.getSelectedFile();
             String pathImagen=imagen.getAbsolutePath();
             String stringNombreImagen= pathImagen.substring(pathImagen.lastIndexOf('/')+1);
-            System.out.println("NOMBRE DE IMAGEN-"+stringNombreImagen);
             Path orig = Paths.get(pathImagen);
             Path dest = Paths.get("IMAGENES/"+stringNombreImagen);
             try {
@@ -183,22 +183,17 @@ public class InsertarB extends javax.swing.JPanel {
         // TODO add your handling code here:
         try {
             PreparedStatement p = Conexion.getUpdatable("insert into BTable values(?,?,?,?)");
-        
             p.setString(1, jTextField3.getText());
             p.setInt(2, Integer.valueOf(jTextField4.getText()));
             p.setString(3, jTextField5.getText());
-
             java.util.Date fechaApertura = jXDatePicker2.getDate();       
-            DateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            String sFechaApertura = formato.format(fechaApertura);
-
-            p.setString(4, "\'"+sFechaApertura+"\'");
-
+            java.sql.Date dat = new java.sql.Date(fechaApertura.getTime());
+            p.setDate(4, dat);
             p.executeUpdate();
-                
             p.close();
         } catch (SQLException ex) {
             System.out.println("No se realizo el insertado de B");
+            Logger.getLogger(InsertarB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_insertButtonActionPerformed
 

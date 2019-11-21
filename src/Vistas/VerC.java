@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,11 +40,10 @@ public class VerC extends javax.swing.JPanel {
             PreparedStatement p = Conexion.getPS("select * from CTable where CodB=?");
             p.setInt(1,(int)itr.next());//Funciona???
             ResultSet rs = p.executeQuery();
-            if (rs.first()){
+
+            while (rs.next()){
                 //crear objeto CTabla y añadirlo a la coleccion
                 tabla.add(new CTabla(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getFloat(4)));
-                if (rs.next())
-                    tabla.add(new CTabla(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getFloat(4)));
             }
         }
         insertarTabla();
@@ -70,6 +71,7 @@ public class VerC extends javax.swing.JPanel {
         origenLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        volverButton = new javax.swing.JButton();
         insertarButton = new javax.swing.JButton();
 
         origenLabel.setText("jLabel1");
@@ -92,6 +94,13 @@ public class VerC extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        volverButton.setText("Volver");
+        volverButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volverButtonActionPerformed(evt);
+            }
+        });
+
         insertarButton.setText("Insertar");
         insertarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,7 +117,8 @@ public class VerC extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(volverButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(insertarButton))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(origenLabel)
@@ -123,7 +133,9 @@ public class VerC extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(insertarButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(insertarButton)
+                    .addComponent(volverButton))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -131,11 +143,18 @@ public class VerC extends javax.swing.JPanel {
     private void insertarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarButtonActionPerformed
         // TODO add your handling code here:
         try {
+            System.out.println("ok1");
             ((Menu)SwingUtilities.getWindowAncestor(this)).insertarC(paraInsertado);//para ver el menu de insertar C
         } catch (SQLException ex) {
             System.out.println("ERROR al usar boton insertar C");
+            Logger.getLogger(InsertarC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_insertarButtonActionPerformed
+
+    private void volverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverButtonActionPerformed
+        // TODO add your handling code here:
+        ((Menu)SwingUtilities.getWindowAncestor(this)).verB();
+    }//GEN-LAST:event_volverButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -143,5 +162,6 @@ public class VerC extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel origenLabel;
+    private javax.swing.JButton volverButton;
     // End of variables declaration//GEN-END:variables
 }

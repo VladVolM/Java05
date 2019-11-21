@@ -34,7 +34,7 @@ public  class Conexion {
     }
     
     public static VerB setVistasUsuaro(String us,String cod) throws SQLException{
-        PreparedStatement p = getUpdatable("select nif from ATable where usuario =? and contraseña = ? ");
+        PreparedStatement p = getUpdatable("select nif from ATable where usuario =? and contra = ? ");
         p.setString(1, us);
         p.setString(2, cod);
         ResultSet r = p.executeQuery();

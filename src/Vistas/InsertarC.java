@@ -27,26 +27,34 @@ public class InsertarC extends javax.swing.JPanel {
     public InsertarC(int b) throws SQLException {
         initComponents();
         recuerdaB=b;
+        System.out.println("ok2");
         jLabel2.setText(String.valueOf(b));
         PreparedStatement p = Conexion.getPS("select contador from CTable where codB = ?");
+        System.out.println("ok3");
         p.setInt(1, b);
+        System.out.println("ok4");
         ResultSet rs =p.executeQuery();
-        p.close();
-        if (rs.first()){
+        System.out.println("ok5");
+        
+        if (rs.next()){
             int max=rs.getInt(1);
+            System.out.println("ok6");
             while(rs.next()){
                 if (max<rs.getInt(1))
                     max=rs.getInt(1);
             }
             jLabel4.setText(String.valueOf(max+1));
         }else jLabel4.setText("1");
-        
-        p=Conexion.getPS("select codD from DTable");
-        rs=p.executeQuery();
+        System.out.println("ok7");
         p.close();
+        p=Conexion.getPS("select codigo from DTable");
+        rs=p.executeQuery();
+        
+        System.out.println("ok8");
         while(rs.next())
              jComboBox1.addItem(String.valueOf(rs.getInt(1)));
         insertButton.setEnabled(false);
+        p.close();
     }
 
     /**
@@ -91,7 +99,6 @@ public class InsertarC extends javax.swing.JPanel {
         jLabel5.setMinimumSize(new java.awt.Dimension(58, 14));
         jLabel5.setPreferredSize(new java.awt.Dimension(58, 14));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setMinimumSize(new java.awt.Dimension(130, 20));
         jComboBox1.setPreferredSize(new java.awt.Dimension(130, 20));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -164,9 +171,9 @@ public class InsertarC extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -186,7 +193,7 @@ public class InsertarC extends javax.swing.JPanel {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
         try {
-            PreparedStatement p = Conexion.getPS("select descuento from DTable where codD=?");
+            PreparedStatement p = Conexion.getPS("select descuento from DTable where codigo=?");
             int d=Integer.valueOf(jComboBox1.getSelectedItem().toString());
             p.setInt(1,d);
             ResultSet rs=p.executeQuery();
@@ -195,6 +202,7 @@ public class InsertarC extends javax.swing.JPanel {
             insertButton.setEnabled(true);
         } catch (SQLException ex) {
             System.out.println("Error al buscar el descuento");
+            Logger.getLogger(InsertarC.class.getName()).log(Level.SEVERE, null, ex);
         }  
     }//GEN-LAST:event_jComboBox1ActionPerformed
 

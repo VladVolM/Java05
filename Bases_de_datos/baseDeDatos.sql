@@ -21,10 +21,10 @@ create table BTable(
 	constraint PK_COD primary key (codigo),
 	constraint FK_NIF foreign  key (nif) references ATable
 	);
-insert into BTable values('567890123', 123, 'imagen1', '1/15/2015' );
-insert into BTable values('567890123', 456, 'imagen2', '11/11/2011');
-insert into BTable values('567890123', 789, 'imagen1', '7/23/2018' );
-insert into BTable values('567890123', 0  , 'imagen2', '9/9/2017'  );
+insert into BTable values('567890123', 123, '1.png', '1/15/2015' );
+insert into BTable values('567890123', 456, '1.png', '11/11/2011');
+insert into BTable values('567890123', 789, '1.png', '7/23/2018' );
+insert into BTable values('567890123', 0  , '1.png', '9/9/2017'  );
 
 drop table DTable cascade;
 create table DTable(

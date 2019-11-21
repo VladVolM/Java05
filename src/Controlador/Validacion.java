@@ -5,12 +5,14 @@
  */
 package Controlador;
 
+import com.aeat.valida.Validador;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,9 +21,16 @@ import java.sql.SQLException;
 public class Validacion {
     boolean validacion = true;
 
+    public Validacion(String nif) {
+        Validador val = new Validador();
+        if (val.checkNif(nif)!=0)
+            JOptionPane.showMessageDialog(null,"No es un NIF de formato correcto");
+    }
+
     public boolean isValidacion() {
         return validacion;
     }
+    
     public Validacion() throws ClassNotFoundException, SQLException {
         Connection conderby;
         String b = File.separator;

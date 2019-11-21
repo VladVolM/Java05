@@ -166,10 +166,13 @@
       </Properties>
     </Component>
     <Component class="org.jdesktop.swingx.JXDatePicker" name="jXDatePicker1">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXDatePicker1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="imageButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jButton5"/>
+        <Property name="text" type="java.lang.String" value="Cambiar imagen"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="imageButtonActionPerformed"/>

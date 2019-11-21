@@ -44,9 +44,9 @@ public class InicioSesion extends javax.swing.JPanel {
         jLabel1.setMinimumSize(new java.awt.Dimension(88, 15));
         jLabel1.setPreferredSize(new java.awt.Dimension(88, 15));
 
-        usuarioTextField.setMaximumSize(new java.awt.Dimension(270, 19));
-        usuarioTextField.setMinimumSize(new java.awt.Dimension(270, 19));
-        usuarioTextField.setPreferredSize(new java.awt.Dimension(270, 19));
+        usuarioTextField.setMaximumSize(new java.awt.Dimension(270, 25));
+        usuarioTextField.setMinimumSize(new java.awt.Dimension(270, 25));
+        usuarioTextField.setPreferredSize(new java.awt.Dimension(270, 25));
         usuarioTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usuarioTextFieldActionPerformed(evt);
@@ -55,9 +55,9 @@ public class InicioSesion extends javax.swing.JPanel {
 
         jLabel2.setText("Contraseña:");
 
-        contraTextField.setMaximumSize(new java.awt.Dimension(270, 19));
-        contraTextField.setMinimumSize(new java.awt.Dimension(270, 19));
-        contraTextField.setPreferredSize(new java.awt.Dimension(270, 19));
+        contraTextField.setMaximumSize(new java.awt.Dimension(270, 25));
+        contraTextField.setMinimumSize(new java.awt.Dimension(270, 25));
+        contraTextField.setPreferredSize(new java.awt.Dimension(270, 25));
         contraTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 contraTextFieldActionPerformed(evt);
