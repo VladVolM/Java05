@@ -5,6 +5,7 @@
  */
 package Controlador;
 
+import Modelo.TodasLasConsultas;
 import Vistas.VerB;
 import Vistas.VerC;
 import java.sql.Connection;
@@ -34,7 +35,7 @@ public  class Conexion {
     }
     
     public static VerB setVistasUsuaro(String us,String cod) throws SQLException{
-        PreparedStatement p = getUpdatable("select nif from ATable where usuario =? and contra = ? ");
+        PreparedStatement p = getUpdatable(TodasLasConsultas.get1());
         p.setString(1, us);
         p.setString(2, cod);
         ResultSet r = p.executeQuery();

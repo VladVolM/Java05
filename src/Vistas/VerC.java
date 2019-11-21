@@ -7,6 +7,7 @@ package Vistas;
 
 import Controlador.Conexion;
 import Modelo.CTabla;
+import Modelo.TodasLasConsultas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,7 +38,7 @@ public class VerC extends javax.swing.JPanel {
         origenLabel.setText("Has entrado desde B: "+ i);
         Iterator itr = c.iterator();
         while (itr.hasNext()){
-            PreparedStatement p = Conexion.getPS("select * from CTable where CodB=?");
+            PreparedStatement p = Conexion.getPS(TodasLasConsultas.get8());
             p.setInt(1,(int)itr.next());//Funciona???
             ResultSet rs = p.executeQuery();
 
@@ -143,7 +144,6 @@ public class VerC extends javax.swing.JPanel {
     private void insertarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarButtonActionPerformed
         // TODO add your handling code here:
         try {
-            System.out.println("ok1");
             ((Menu)SwingUtilities.getWindowAncestor(this)).insertarC(paraInsertado);//para ver el menu de insertar C
         } catch (SQLException ex) {
             System.out.println("ERROR al usar boton insertar C");

@@ -6,6 +6,7 @@
 package Vistas;
 
 import Controlador.Conexion;
+import Modelo.TodasLasConsultas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,30 +28,22 @@ public class InsertarC extends javax.swing.JPanel {
     public InsertarC(int b) throws SQLException {
         initComponents();
         recuerdaB=b;
-        System.out.println("ok2");
         jLabel2.setText(String.valueOf(b));
-        PreparedStatement p = Conexion.getPS("select contador from CTable where codB = ?");
-        System.out.println("ok3");
+        PreparedStatement p = Conexion.getPS(TodasLasConsultas.get9());
         p.setInt(1, b);
-        System.out.println("ok4");
         ResultSet rs =p.executeQuery();
-        System.out.println("ok5");
         
         if (rs.next()){
             int max=rs.getInt(1);
-            System.out.println("ok6");
             while(rs.next()){
                 if (max<rs.getInt(1))
                     max=rs.getInt(1);
             }
             jLabel4.setText(String.valueOf(max+1));
         }else jLabel4.setText("1");
-        System.out.println("ok7");
         p.close();
         p=Conexion.getPS("select codigo from DTable");
         rs=p.executeQuery();
-        
-        System.out.println("ok8");
         while(rs.next())
              jComboBox1.addItem(String.valueOf(rs.getInt(1)));
         insertButton.setEnabled(false);
@@ -193,7 +186,7 @@ public class InsertarC extends javax.swing.JPanel {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
         try {
-            PreparedStatement p = Conexion.getPS("select descuento from DTable where codigo=?");
+            PreparedStatement p = Conexion.getPS(TodasLasConsultas.get10());
             int d=Integer.valueOf(jComboBox1.getSelectedItem().toString());
             p.setInt(1,d);
             ResultSet rs=p.executeQuery();
@@ -209,7 +202,7 @@ public class InsertarC extends javax.swing.JPanel {
     private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
         // TODO add your handling code here:
         try {
-            PreparedStatement p = Conexion.getUpdatable("Insert into CTable values(?,?,?,?)");
+            PreparedStatement p = Conexion.getUpdatable(TodasLasConsultas.get11());
             p.setInt(1, recuerdaB);
             p.setInt(2, Integer.valueOf(jLabel4.getText()));
             p.setInt(3, Integer.valueOf(jComboBox1.getSelectedItem().toString()));

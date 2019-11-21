@@ -5,6 +5,7 @@
  */
 package Controlador;
 
+import Modelo.TodasLasConsultas;
 import com.aeat.valida.Validador;
 import java.io.File;
 import java.sql.Connection;
@@ -46,7 +47,7 @@ public class Validacion {
         }else{
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             conderby = DriverManager.getConnection("jdbc:derby:"+bdd+" ;create=true");
-            ps = conderby.prepareStatement("create table ATable(nif varchar(9) PRIMARY KEY,usuario varchar(30),contra varchar(20))");
+            ps = conderby.prepareStatement(TodasLasConsultas.get2());
             ps.execute();
             ps.close();
             
@@ -64,11 +65,11 @@ public class Validacion {
 
             System.out.println("La base de datos derby se ha creado");
         }
-        ps = conderby.prepareStatement("select * from ATable");
+        ps = conderby.prepareStatement(TodasLasConsultas.get3());
         rs = ps.executeQuery();
         
         Conexion.realizarConexion("postgres", "example");
-        ps2 = Conexion.getPS("select * from ATable");
+        ps2 = Conexion.getPS(TodasLasConsultas.get3());
         rs2 = ps2.executeQuery();
         if (rs.next()==rs2.next()){
             while(otro){

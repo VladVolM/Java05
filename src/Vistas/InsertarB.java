@@ -6,6 +6,7 @@
 package Vistas;
 
 import Controlador.Conexion;
+import Modelo.TodasLasConsultas;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,8 +14,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -182,7 +181,7 @@ public class InsertarB extends javax.swing.JPanel {
     private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
         // TODO add your handling code here:
         try {
-            PreparedStatement p = Conexion.getUpdatable("insert into BTable values(?,?,?,?)");
+            PreparedStatement p = Conexion.getUpdatable(TodasLasConsultas.get7());
             p.setString(1, jTextField3.getText());
             p.setInt(2, Integer.valueOf(jTextField4.getText()));
             p.setString(3, jTextField5.getText());
@@ -191,6 +190,7 @@ public class InsertarB extends javax.swing.JPanel {
             p.setDate(4, dat);
             p.executeUpdate();
             p.close();
+            ((Menu)SwingUtilities.getWindowAncestor(this)).verB();
         } catch (SQLException ex) {
             System.out.println("No se realizo el insertado de B");
             Logger.getLogger(InsertarB.class.getName()).log(Level.SEVERE, null, ex);

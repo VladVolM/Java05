@@ -8,6 +8,7 @@ package Vistas;
 import Controlador.Conexion;
 import Controlador.Validacion;
 import Modelo.BTabla;
+import Modelo.TodasLasConsultas;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -57,7 +58,7 @@ public class VerB extends javax.swing.JPanel {
 
         if(nif!=null){
             recuerdaNif=nif;
-            PreparedStatement p = Conexion.getUpdatable("select * from BTable where nif =?");
+            PreparedStatement p = Conexion.getUpdatable(TodasLasConsultas.get4());
             p.setString(1, nif);
             rs = p.executeQuery();
             try {
@@ -267,7 +268,7 @@ public class VerB extends javax.swing.JPanel {
                 Image dimg = img.getScaledInstance(imageLabel.getPreferredSize().width, imageLabel.getPreferredSize().height,Image.SCALE_SMOOTH);//usar buffer para CAMBIAR TAMAÑO
                 imageLabel.setIcon(new ImageIcon(dimg));//representa imagen
                 //update a la imagen
-                PreparedStatement p = Conexion.getUpdatable("update BTable set imagen=? where nif=? and codigo=?");
+                PreparedStatement p = Conexion.getUpdatable(TodasLasConsultas.get5());
                 p.setString(1, stringNombreImagen);
                 p.setString(2, rs.getString(1));
                 p.setInt(3, rs.getInt(2));
@@ -340,7 +341,7 @@ public class VerB extends javax.swing.JPanel {
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
         // TODO add your handling code here:
         try {
-            PreparedStatement p = Conexion.getUpdatable("update BTable set fechaLanzamiento=? where nif=? and codigo=?");
+            PreparedStatement p = Conexion.getUpdatable(TodasLasConsultas.get6());
         java.util.Date fechaApertura = jXDatePicker1.getDate();       
         java.sql.Date dat = new java.sql.Date(fechaApertura.getTime());
         p.setDate(1, dat);
