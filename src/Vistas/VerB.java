@@ -6,11 +6,24 @@
 package Vistas;
 
 import Controlador.Conexion;
+import Modelo.BTabla;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -19,6 +32,12 @@ import java.util.LinkedList;
 public class VerB extends javax.swing.JPanel {
     private ResultSet rs;
     private VerC c;
+    private BTabla b;
+    private String recuerdaNif=null;
+
+    public String getNif() {
+        return recuerdaNif;
+    }
 
     public VerC getC() {
         return c;
@@ -26,26 +45,53 @@ public class VerB extends javax.swing.JPanel {
     /**
      * Creates new form VerB
      * @param nif
+     * @throws java.sql.SQLException
      */
     public VerB(String nif) throws SQLException {
         initComponents();
         if(nif!=null){
+            recuerdaNif=nif;
             PreparedStatement p = Conexion.getUpdatable("select * from BTable where nif =?");
             p.setString(1, nif);
             rs = p.executeQuery();
-            if (rs.first()){
-                Collection<Integer> coleccion = new LinkedList<>();
-                coleccion.add(rs.getInt(2));
-                while(rs.next()){
+            try {
+                if (rs.first()){
+                    Collection<Integer> coleccion = new LinkedList<>();
                     coleccion.add(rs.getInt(2));
-                }
-                c=new VerC(coleccion);
-                
-            }else System.out.println("ERROR en VerB no existe B para tal usuario");
-            //crearVerC
+                    while(rs.next()){
+                        coleccion.add(rs.getInt(2));
+                    }
+                    c=new VerC(coleccion,1);//SE CREA PARA SOLAMENTE SER USABLE POR EL GET VERC
+
+                }else System.out.println("ERROR en VerB no existe B para tal usuario");
+                    //crearVerC
+            } catch (SQLException ex) {
+                System.out.println("Error al verC");
+            }
         }else System.out.println("ERROR en VerB no existe tal usuario");
+        rs.first();// para que empieze por ahí
+        verTablaB();
+        atrasButton.setEnabled(false);
+        if(rs.isLast())
+            adelanteButton.setEnabled(false);
     }
 
+    private void verTablaB() {
+        try {
+            jTextField1.setText(rs.getString(1));
+            jTextField2.setText(String.valueOf(rs.getInt(2)));
+        
+            BufferedImage img;
+            img = ImageIO.read(new File("IMAGENES/"+rs.getString(3)));//lectura buffer de imagen
+            Image dimg = img.getScaledInstance(imageLabel.getPreferredSize().width, imageLabel.getPreferredSize().height,Image.SCALE_SMOOTH);//usar buffer para CAMBIAR TAMAÑO
+            imageLabel.setIcon(new ImageIcon(dimg));//representa imagen
+            jXDatePicker1.setDate(rs.getDate(4));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error de lectura B");
+        }
+        
+    }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,19 +101,19 @@ public class VerB extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFileChooser1 = new javax.swing.JFileChooser();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        imageLabel = new javax.swing.JLabel();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        imageButton = new javax.swing.JButton();
+        atrasButton = new javax.swing.JButton();
+        insertButton = new javax.swing.JButton();
+        cButton = new javax.swing.JButton();
+        adelanteButton = new javax.swing.JButton();
 
         jLabel1.setText("NIF:");
         jLabel1.setMaximumSize(new java.awt.Dimension(54, 15));
@@ -91,24 +137,44 @@ public class VerB extends javax.swing.JPanel {
         jLabel3.setMinimumSize(new java.awt.Dimension(54, 15));
         jLabel3.setPreferredSize(new java.awt.Dimension(54, 15));
 
-        jLabel4.setText("IMAGEN[][][][][][]");
-        jLabel4.setMaximumSize(new java.awt.Dimension(140, 140));
-        jLabel4.setMinimumSize(new java.awt.Dimension(140, 140));
-        jLabel4.setPreferredSize(new java.awt.Dimension(140, 140));
+        imageLabel.setMaximumSize(new java.awt.Dimension(140, 140));
+        imageLabel.setMinimumSize(new java.awt.Dimension(140, 140));
+        imageLabel.setPreferredSize(new java.awt.Dimension(140, 140));
 
-        jLabel5.setText("URL Imagen:");
+        imageButton.setText("jButton5");
+        imageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imageButtonActionPerformed(evt);
+            }
+        });
 
-        jTextField3.setText("jTextField3");
-        jTextField3.setMinimumSize(new java.awt.Dimension(258, 19));
-        jTextField3.setPreferredSize(new java.awt.Dimension(258, 19));
+        atrasButton.setText("<--");
+        atrasButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                atrasButtonActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Guardar");
+        insertButton.setText("Insertar B");
+        insertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("<--");
+        cButton.setText("Ver C");
+        cButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cButtonActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("-->");
-
-        jButton4.setText("Ver C");
+        adelanteButton.setText("-->");
+        adelanteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adelanteButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -128,21 +194,18 @@ public class VerB extends javax.swing.JPanel {
                             .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(imageButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
+                                .addComponent(atrasButton)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(insertButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton4)
+                                .addComponent(cButton)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton3)))
+                                .addComponent(adelanteButton)))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -162,35 +225,116 @@ public class VerB extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
+                    .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(imageButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(insertButton)
+                    .addComponent(atrasButton)
+                    .addComponent(adelanteButton)
+                    .addComponent(cButton))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void imageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageButtonActionPerformed
+        // TODO add your handling code here:
+        int op;
+        
+        op = jFileChooser1.showOpenDialog(this);
+        if (op == JFileChooser.APPROVE_OPTION){
+            File imagen = jFileChooser1.getSelectedFile();
+            String pathImagen=imagen.getAbsolutePath();
+            String stringNombreImagen= pathImagen.substring(pathImagen.lastIndexOf('/')+1);
+            System.out.println("NOMBRE DE IMAGEN-"+stringNombreImagen);
+            Path orig = Paths.get(pathImagen);
+            Path dest = Paths.get("IMAGENES/"+stringNombreImagen);
+            try {
+                Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
+                BufferedImage img;
+                img = ImageIO.read(new File("IMAGENES/"+stringNombreImagen));//lectura buffer de imagen
+                Image dimg = img.getScaledInstance(imageLabel.getPreferredSize().width, imageLabel.getPreferredSize().height,Image.SCALE_SMOOTH);//usar buffer para CAMBIAR TAMAÑO
+                imageLabel.setIcon(new ImageIcon(dimg));//representa imagen
+                //update a la imagen
+                PreparedStatement p = Conexion.getUpdatable("update BTable set imagen=? where nif=? and codigo=?");
+                p.setString(1, stringNombreImagen);
+                p.setString(2, rs.getString(1));
+                p.setInt(3, rs.getInt(2));
+                if (p.executeUpdate()== 0) System.out.println("No se realizo el guardado de imagen");
+                p.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error de lectura de imagen");
+            }
+        }
+    }//GEN-LAST:event_imageButtonActionPerformed
+
+    private void atrasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atrasButtonActionPerformed
+            // TODO add your handling code here:
+        try {
+            rs.previous();
+            verTablaB();
+            if(rs.isFirst())
+                atrasButton.setEnabled(false);
+            adelanteButton.setEnabled(true);
+        } catch (SQLException ex) {
+            System.out.println("error al moverse atras");
+        }
+    }//GEN-LAST:event_atrasButtonActionPerformed
+
+    private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
+        // TODO add your handling code here:
+        ((Menu)SwingUtilities.getWindowAncestor(this)).insertarB();//para ver el menu de insertar B
+    }//GEN-LAST:event_insertButtonActionPerformed
+
+    private void cButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            int posB = rs.getInt(2); //guarda el codigo b
+
+            if (rs.first()){
+                Collection<Integer> coleccion = new LinkedList<>();
+                coleccion.add(rs.getInt(2));
+                while(rs.next()){
+                    coleccion.add(rs.getInt(2));
+                }
+                c=new VerC(coleccion,posB);
+
+            }else System.out.println("ERROR en VerB no existe B para tal usuario");
+                //crearVerC
+            ((Menu)SwingUtilities.getWindowAncestor(this)).verC();//para ver C
+        } catch (SQLException ex) {
+            System.out.println("Error al verC");
+        }
+    }//GEN-LAST:event_cButtonActionPerformed
+
+    private void adelanteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adelanteButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            rs.next();
+            verTablaB();
+            if(rs.isLast())
+                adelanteButton.setEnabled(false);
+            atrasButton.setEnabled(true);
+        } catch (SQLException ex) {
+            System.out.println("error al moverse adelante");
+        }
+    }//GEN-LAST:event_adelanteButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton adelanteButton;
+    private javax.swing.JButton atrasButton;
+    private javax.swing.JButton cButton;
+    private javax.swing.JButton imageButton;
+    private javax.swing.JLabel imageLabel;
+    private javax.swing.JButton insertButton;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     // End of variables declaration//GEN-END:variables
 }

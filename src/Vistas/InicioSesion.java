@@ -22,7 +22,7 @@ public class InicioSesion extends javax.swing.JPanel {
      */
     public InicioSesion() {
         initComponents();
-        contraTextField.setEditable(false);
+        contraTextField.setEnabled(false);
     }
 
     /**
@@ -97,9 +97,9 @@ public class InicioSesion extends javax.swing.JPanel {
     private void usuarioTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioTextFieldActionPerformed
         // TODO add your handling code here:
         if(!"".equals(usuarioTextField.getText())){
-            contraTextField.setEditable(true);
+            contraTextField.setEnabled(true);
             contraTextField.requestFocus();
-            usuarioTextField.setEditable(false);
+            usuarioTextField.setEnabled(false);
         }
             
     }//GEN-LAST:event_usuarioTextFieldActionPerformed
@@ -107,9 +107,9 @@ public class InicioSesion extends javax.swing.JPanel {
     private void contraTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contraTextFieldActionPerformed
         // TODO add your handling code here:
         
-        contraTextField.setEditable(false);
+        contraTextField.setEnabled(false);
         usuarioTextField.requestFocus();
-        usuarioTextField.setEditable(true);
+        usuarioTextField.setEnabled(true);
         
         
         if(!"".equals(contraTextField.getText())){

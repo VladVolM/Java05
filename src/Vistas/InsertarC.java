@@ -5,17 +5,48 @@
  */
 package Vistas;
 
+import Controlador.Conexion;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author alumno
  */
 public class InsertarC extends javax.swing.JPanel {
-
+    int recuerdaB;
     /**
      * Creates new form InsertarC
+     * @param b
+     * @throws java.sql.SQLException
      */
-    public InsertarC() {
+    public InsertarC(int b) throws SQLException {
         initComponents();
+        recuerdaB=b;
+        jLabel2.setText(String.valueOf(b));
+        PreparedStatement p = Conexion.getPS("select contador from CTable where codB = ?");
+        p.setInt(1, b);
+        ResultSet rs =p.executeQuery();
+        p.close();
+        if (rs.first()){
+            int max=rs.getInt(1);
+            while(rs.next()){
+                if (max<rs.getInt(1))
+                    max=rs.getInt(1);
+            }
+            jLabel4.setText(String.valueOf(max+1));
+        }else jLabel4.setText("1");
+        
+        p=Conexion.getPS("select codD from DTable");
+        rs=p.executeQuery();
+        p.close();
+        while(rs.next())
+             jComboBox1.addItem(String.valueOf(rs.getInt(1)));
+        insertButton.setEnabled(false);
     }
 
     /**
@@ -27,19 +58,178 @@ public class InsertarC extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        volverButton = new javax.swing.JButton();
+        insertButton = new javax.swing.JButton();
+
+        jLabel1.setText("Codigo B:");
+        jLabel1.setMaximumSize(new java.awt.Dimension(58, 14));
+        jLabel1.setMinimumSize(new java.awt.Dimension(58, 14));
+        jLabel1.setPreferredSize(new java.awt.Dimension(58, 14));
+
+        jLabel2.setEnabled(false);
+        jLabel2.setMaximumSize(new java.awt.Dimension(130, 14));
+        jLabel2.setMinimumSize(new java.awt.Dimension(130, 14));
+        jLabel2.setPreferredSize(new java.awt.Dimension(130, 14));
+
+        jLabel3.setText("Contador B:");
+
+        jLabel4.setEnabled(false);
+        jLabel4.setMaximumSize(new java.awt.Dimension(130, 14));
+        jLabel4.setMinimumSize(new java.awt.Dimension(130, 14));
+        jLabel4.setPreferredSize(new java.awt.Dimension(130, 14));
+
+        jLabel5.setText("Codugo D:");
+        jLabel5.setMaximumSize(new java.awt.Dimension(58, 14));
+        jLabel5.setMinimumSize(new java.awt.Dimension(58, 14));
+        jLabel5.setPreferredSize(new java.awt.Dimension(58, 14));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setMinimumSize(new java.awt.Dimension(130, 20));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(130, 20));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Calculo:");
+        jLabel6.setMaximumSize(new java.awt.Dimension(58, 14));
+        jLabel6.setMinimumSize(new java.awt.Dimension(58, 14));
+        jLabel6.setPreferredSize(new java.awt.Dimension(58, 14));
+
+        jLabel7.setEnabled(false);
+        jLabel7.setMaximumSize(new java.awt.Dimension(130, 14));
+        jLabel7.setMinimumSize(new java.awt.Dimension(130, 14));
+        jLabel7.setPreferredSize(new java.awt.Dimension(130, 14));
+
+        volverButton.setText("Volver");
+        volverButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volverButtonActionPerformed(evt);
+            }
+        });
+
+        insertButton.setText("Insertar");
+        insertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(38, 38, 38)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addGap(38, 38, 38)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(volverButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(insertButton)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(insertButton)
+                    .addComponent(volverButton))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            PreparedStatement p = Conexion.getPS("select descuento from DTable where codD=?");
+            int d=Integer.valueOf(jComboBox1.getSelectedItem().toString());
+            p.setInt(1,d);
+            ResultSet rs=p.executeQuery();
+            rs.next();
+            jLabel7.setText(String.valueOf(recuerdaB*d/rs.getInt(1)));
+            insertButton.setEnabled(true);
+        } catch (SQLException ex) {
+            System.out.println("Error al buscar el descuento");
+        }  
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            PreparedStatement p = Conexion.getUpdatable("Insert into CTable values(?,?,?,?)");
+            p.setInt(1, recuerdaB);
+            p.setInt(2, Integer.valueOf(jLabel4.getText()));
+            p.setInt(3, Integer.valueOf(jComboBox1.getSelectedItem().toString()));
+            p.setFloat(4, Float.valueOf(jLabel7.getText()));
+            if(p.executeUpdate()==0) System.out.println("No se introdujo nada");
+            p.close();
+            insertButton.setEnabled(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(InsertarC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_insertButtonActionPerformed
+
+    private void volverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverButtonActionPerformed
+        // TODO add your handling code here:
+        ((Menu)SwingUtilities.getWindowAncestor(this)).verC();
+    }//GEN-LAST:event_volverButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton insertButton;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JButton volverButton;
     // End of variables declaration//GEN-END:variables
 }

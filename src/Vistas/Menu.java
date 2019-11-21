@@ -6,6 +6,7 @@
 package Vistas;
 
 import Controlador.Validacion;
+import java.sql.SQLException;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -56,12 +57,12 @@ public class Menu extends javax.swing.JFrame {
     }
     
     public void insertarB(){
-        this.setContentPane(new InsertarB());
+        this.setContentPane(new InsertarB(b.getNif()));
         this.pack();
     }
     
-    public void incertarC(){
-        this.setContentPane(new InsertarC());
+    public void insertarC(int codigoBAutomatico) throws SQLException{
+        this.setContentPane(new InsertarC(codigoBAutomatico));
         this.pack();
     }
 
