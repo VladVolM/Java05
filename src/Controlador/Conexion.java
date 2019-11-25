@@ -13,6 +13,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author alumno
@@ -34,13 +36,20 @@ public  class Conexion {
         return con.prepareStatement(query);
     }
     
-    public static VerB setVistasUsuaro(String us,String cod) throws SQLException{
+    public static VerB setVistasUsuaro(String us,String cod) throws ExcepcionPropia{
+        try {
         PreparedStatement p = getUpdatable(TodasLasConsultas.get1());
-        p.setString(1, us);
+        
+            p.setString(1, us);
+        
         p.setString(2, cod);
         ResultSet r = p.executeQuery();
         if (r.next())
             return new VerB(r.getString(1));
+        
         return new VerB(null);
+        } catch (SQLException ex) {
+            throw new ExcepcionPropia(2);
+        }
     }
 }

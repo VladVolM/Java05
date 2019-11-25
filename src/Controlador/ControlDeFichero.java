@@ -5,7 +5,10 @@
  */
 package Controlador;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -20,6 +23,14 @@ public class ControlDeFichero {
         writer.write(s);
         writer.close();
         
+    }
+    
+    static String buscarError(int e) throws FileNotFoundException, IOException {
+        String error = null;
+        BufferedReader br = new BufferedReader(new FileReader("ERRORES/posiblesErrores.txt")); 
+        for (int i=0;i<e;i++) 
+            error = br.readLine();
+        return error;
     }
     /*
     

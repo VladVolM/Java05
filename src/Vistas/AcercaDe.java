@@ -13,6 +13,8 @@ public class AcercaDe extends javax.swing.JDialog {
 
     /**
      * Creates new form AcercaDed
+     * @param parent
+     * @param modal
      */
     public AcercaDe(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

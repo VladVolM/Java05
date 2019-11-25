@@ -6,9 +6,11 @@
 package Vistas;
 
 import Controlador.Conexion;
+import Controlador.ExcepcionPropia;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -115,9 +117,8 @@ public class InicioSesion extends javax.swing.JPanel {
         if(!"".equals(contraTextField.getText())){
             try {
                 ((Menu)SwingUtilities.getWindowAncestor(this)).setBC(Conexion.setVistasUsuaro(usuarioTextField.getText(),contraTextField.getText()));//para ver visualizar
-            } catch (SQLException ex) {
-                Logger.getLogger(InicioSesion.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("ERROR en INICIOSECION");
+            } catch (ExcepcionPropia ex) {
+                JOptionPane.showMessageDialog(null,ex.getErrorReciente());
             }
             ((Menu)SwingUtilities.getWindowAncestor(this)).verB();//para ver visualizar
             usuarioTextField.setText("");

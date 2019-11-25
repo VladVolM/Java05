@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import Controlador.ExcepcionPropia;
 import Controlador.Validacion;
 import java.sql.SQLException;
 import javax.swing.JDialog;
@@ -29,8 +30,12 @@ public class Menu extends javax.swing.JFrame {
         try {
             Validacion val = new Validacion();
             f=val.isValidacion();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,"La validacion devuelve error");
+        } catch (ClassNotFoundException | SQLException ex) {
+            try {
+                throw new ExcepcionPropia(1);
+            } catch (ExcepcionPropia ex1) {
+                JOptionPane.showMessageDialog(null,ex1.getErrorReciente());
+            }
         }
         if (f){
             in = new InicioSesion();

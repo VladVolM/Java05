@@ -1,6 +1,6 @@
 00:------------------------------(2,1,30)
-01:
-02:
+01:Error validar derby postgres
+02:Error conectar usuario
 03:
 04:
 05:
