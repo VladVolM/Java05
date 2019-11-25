@@ -16,3 +16,4 @@
 15:Error de insertado de B
 16:No existe tal usuario
 17:Error en la creacion del C
+18:Error de fecha

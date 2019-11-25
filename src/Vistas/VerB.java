@@ -368,8 +368,10 @@ public class VerB extends javax.swing.JPanel {
         // TODO add your handling code here:
         try {
             PreparedStatement p = Conexion.getUpdatable(TodasLasConsultas.get6());
-            java.util.Date fechaApertura = jXDatePicker1.getDate();       
-            java.sql.Date dat = new java.sql.Date(fechaApertura.getTime());
+            java.util.Date fecha = jXDatePicker1.getDate(); 
+            if (fecha.getYear()<100)//si esta debajo de 2000
+                throw new ExcepcionPropia(18);
+            java.sql.Date dat = new java.sql.Date(fecha.getTime());
             p.setDate(1, dat);
             p.setString(2, rs.getString(1));
             p.setInt(3, rs.getInt(2));
