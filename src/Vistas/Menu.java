@@ -8,6 +8,8 @@ package Vistas;
 import Controlador.ExcepcionPropia;
 import Controlador.Validacion;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -36,6 +38,8 @@ public class Menu extends javax.swing.JFrame {
             } catch (ExcepcionPropia ex1) {
                 JOptionPane.showMessageDialog(null,ex1.getErrorReciente());
             }
+        } catch (ExcepcionPropia ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (f){
             in = new InicioSesion();
@@ -66,7 +70,7 @@ public class Menu extends javax.swing.JFrame {
         this.pack();
     }
     
-    public void insertarC(int codigoBAutomatico) throws SQLException{
+    public void insertarC(int codigoBAutomatico) throws SQLException, ExcepcionPropia{
         this.setContentPane(new InsertarC(codigoBAutomatico));
         this.pack();
     }

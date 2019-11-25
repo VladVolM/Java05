@@ -6,12 +6,12 @@
 package Vistas;
 
 import Controlador.Conexion;
+import Controlador.ExcepcionPropia;
 import Modelo.TodasLasConsultas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -24,8 +24,9 @@ public class InsertarC extends javax.swing.JPanel {
      * Creates new form InsertarC
      * @param b
      * @throws java.sql.SQLException
+     * @throws Controlador.ExcepcionPropia
      */
-    public InsertarC(int b) throws SQLException {
+    public InsertarC(int b) throws SQLException, ExcepcionPropia {
         initComponents();
         recuerdaB=b;
         jLabel2.setText(String.valueOf(b));
@@ -42,7 +43,7 @@ public class InsertarC extends javax.swing.JPanel {
             jLabel4.setText(String.valueOf(max+1));
         }else jLabel4.setText("1");
         p.close();
-        p=Conexion.getPS("select codigo from DTable");
+        p=Conexion.getPS(TodasLasConsultas.get12());
         rs=p.executeQuery();
         while(rs.next())
              jComboBox1.addItem(String.valueOf(rs.getInt(1)));
@@ -194,8 +195,13 @@ public class InsertarC extends javax.swing.JPanel {
             jLabel7.setText(String.valueOf(recuerdaB*d/rs.getInt(1)));
             insertButton.setEnabled(true);
         } catch (SQLException ex) {
-            System.out.println("Error al buscar el descuento");
-            Logger.getLogger(InsertarC.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                throw new ExcepcionPropia(12);
+            } catch (ExcepcionPropia ex1) {
+                JOptionPane.showMessageDialog(null, ex1.getErrorReciente());
+            }
+        } catch (ExcepcionPropia ex) {
+            JOptionPane.showMessageDialog(null, ex.getErrorReciente());
         }  
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
@@ -207,11 +213,18 @@ public class InsertarC extends javax.swing.JPanel {
             p.setInt(2, Integer.valueOf(jLabel4.getText()));
             p.setInt(3, Integer.valueOf(jComboBox1.getSelectedItem().toString()));
             p.setFloat(4, Float.valueOf(jLabel7.getText()));
-            if(p.executeUpdate()==0) System.out.println("No se introdujo nada");
+            if(p.executeUpdate()==0) 
+                throw new ExcepcionPropia(13);
             p.close();
             insertButton.setEnabled(false);
         } catch (SQLException ex) {
-            Logger.getLogger(InsertarC.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                throw new ExcepcionPropia(13);
+            } catch (ExcepcionPropia ex1) {
+                JOptionPane.showMessageDialog(null, ex1.getErrorReciente());
+            }
+        } catch (ExcepcionPropia ex) {
+            JOptionPane.showMessageDialog(null, ex.getErrorReciente());
         }
     }//GEN-LAST:event_insertButtonActionPerformed
 

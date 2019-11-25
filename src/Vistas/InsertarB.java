@@ -6,16 +6,16 @@
 package Vistas;
 
 import Controlador.Conexion;
+import Controlador.ExcepcionPropia;
 import Modelo.TodasLasConsultas;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -172,8 +172,12 @@ public class InsertarB extends javax.swing.JPanel {
             try {
                 Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
                 jTextField5.setText(stringNombreImagen);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error en el copido de imagen");
+            } catch (IOException e) {
+                try {
+                    throw new ExcepcionPropia(14);
+                } catch (ExcepcionPropia ex1) {
+                    JOptionPane.showMessageDialog(null, ex1.getErrorReciente());
+                }
             }
         }
     }//GEN-LAST:event_imageButtonActionPerformed
@@ -192,8 +196,13 @@ public class InsertarB extends javax.swing.JPanel {
             p.close();
             ((Menu)SwingUtilities.getWindowAncestor(this)).verB();
         } catch (SQLException ex) {
-            System.out.println("No se realizo el insertado de B");
-            Logger.getLogger(InsertarB.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                throw new ExcepcionPropia(15);
+            } catch (ExcepcionPropia ex1) {
+                JOptionPane.showMessageDialog(null, ex1.getErrorReciente());
+            }
+        } catch (ExcepcionPropia ex) {
+            JOptionPane.showMessageDialog(null, ex.getErrorReciente());
         }
     }//GEN-LAST:event_insertButtonActionPerformed
 

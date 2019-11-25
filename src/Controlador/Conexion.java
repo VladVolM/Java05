@@ -13,8 +13,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 /**
  *
  * @author alumno
@@ -24,16 +23,29 @@ public  class Conexion {
     private VerB b;
     private VerC c;
     
-    public static void realizarConexion(String usuario, String contraseña) throws ClassNotFoundException, SQLException {
-        Class.forName("org.postgresql.Driver");
-        con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",usuario,contraseña);
+    public static void realizarConexion(String usuario, String contraseña) throws ExcepcionPropia {
+        try {
+            Class.forName("org.postgresql.Driver");
+            con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",usuario,contraseña);
+        } catch (ClassNotFoundException | SQLException ex) {
+            throw new ExcepcionPropia(5);
+        }
+        
     }
-    public static PreparedStatement getUpdatable(String query) throws SQLException {
-        return con.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+    public static PreparedStatement getUpdatable(String query) throws ExcepcionPropia {
+        try {
+            return con.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+        } catch (SQLException ex) {
+            throw new ExcepcionPropia(3);
+        }
     }
 
-    public static PreparedStatement getPS(String query) throws SQLException {
-        return con.prepareStatement(query);
+    public static PreparedStatement getPS(String query) throws ExcepcionPropia {
+        try {
+            return con.prepareStatement(query);
+        } catch (SQLException ex) {
+            throw new ExcepcionPropia(4);
+        }
     }
     
     public static VerB setVistasUsuaro(String us,String cod) throws ExcepcionPropia{

@@ -6,12 +6,14 @@
 package Vistas;
 
 import Controlador.Conexion;
+import Controlador.ExcepcionPropia;
 import Controlador.Validacion;
 import Modelo.BTabla;
 import Modelo.TodasLasConsultas;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,8 +23,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -50,8 +50,9 @@ public class VerB extends javax.swing.JPanel {
      * Creates new form VerB
      * @param nif
      * @throws java.sql.SQLException
+     * @throws Controlador.ExcepcionPropia
      */
-    public VerB(String nif) throws SQLException {
+    public VerB(String nif) throws SQLException, ExcepcionPropia {
         initComponents();
 
         new Validacion(nif);
@@ -70,12 +71,12 @@ public class VerB extends javax.swing.JPanel {
                     }
                     c=new VerC(coleccion,1);//SE CREA PARA SOLAMENTE SER USABLE POR EL GET VERC
 
-                }else System.out.println("ERROR en VerB no existe B para tal usuario");
+                }else throw new ExcepcionPropia(16);
                     //crearVerC
             } catch (SQLException ex) {
-                System.out.println("Error al verC");
+                throw new ExcepcionPropia(17);
             }
-        }else System.out.println("ERROR en VerB no existe tal usuario");
+        }else throw new ExcepcionPropia(16);
         rs.first();// para que empieze por ahí
         verTablaB();
         atrasButton.setEnabled(false);
@@ -92,8 +93,12 @@ public class VerB extends javax.swing.JPanel {
             Image dimg = img.getScaledInstance(imageLabel.getPreferredSize().width, imageLabel.getPreferredSize().height,Image.SCALE_SMOOTH);//usar buffer para CAMBIAR TAMAÑO
             imageLabel.setIcon(new ImageIcon(dimg));//representa imagen
             jXDatePicker1.setDate(rs.getDate(4));
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error de lectura B");
+        } catch (IOException | SQLException e) {
+            try {
+                throw new ExcepcionPropia(6);
+            } catch (ExcepcionPropia ex) {
+                JOptionPane.showMessageDialog(null, ex.getErrorReciente());
+            }
         }
         
     }
@@ -272,10 +277,17 @@ public class VerB extends javax.swing.JPanel {
                 p.setString(1, stringNombreImagen);
                 p.setString(2, rs.getString(1));
                 p.setInt(3, rs.getInt(2));
-                if (p.executeUpdate()== 0) System.out.println("No se realizo el guardado de imagen");
+                if (p.executeUpdate()== 0) 
+                    throw new ExcepcionPropia(7);
                 p.close();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error de lectura de imagen");
+            } catch (IOException | SQLException e) {
+                try {
+                    throw new ExcepcionPropia(7);
+                } catch (ExcepcionPropia ex) {
+                    JOptionPane.showMessageDialog(null, ex.getErrorReciente());
+                }
+            } catch (ExcepcionPropia ex) {
+                JOptionPane.showMessageDialog(null, ex.getErrorReciente());
             }
         }
     }//GEN-LAST:event_imageButtonActionPerformed
@@ -289,7 +301,11 @@ public class VerB extends javax.swing.JPanel {
                 atrasButton.setEnabled(false);
             adelanteButton.setEnabled(true);
         } catch (SQLException ex) {
-            System.out.println("error al moverse atras");
+            try {
+                throw new ExcepcionPropia(8);
+            } catch (ExcepcionPropia ex1) {
+                JOptionPane.showMessageDialog(null, ex1.getErrorReciente());
+            }
         }
     }//GEN-LAST:event_atrasButtonActionPerformed
 
@@ -312,7 +328,7 @@ public class VerB extends javax.swing.JPanel {
                 c=new VerC(coleccion,posB);
                 ((Menu)SwingUtilities.getWindowAncestor(this)).setBC(this);
 
-            }else System.out.println("ERROR en VerB no existe B para tal usuario");
+            }else throw new ExcepcionPropia(16);
                 //crearVerC
             ((Menu)SwingUtilities.getWindowAncestor(this)).verC();//para ver C
             
@@ -320,7 +336,13 @@ public class VerB extends javax.swing.JPanel {
             while (rs.next() && rs.getInt(2)!=posB)
             {}
         } catch (SQLException ex) {
-            System.out.println("Error al verC");
+            try {
+                throw new ExcepcionPropia(10);
+            } catch (ExcepcionPropia ex1) {
+                JOptionPane.showMessageDialog(null, ex1.getErrorReciente());
+            }
+        } catch (ExcepcionPropia ex) {
+            JOptionPane.showMessageDialog(null, ex.getErrorReciente());
         }
         
     }//GEN-LAST:event_cButtonActionPerformed
@@ -334,7 +356,11 @@ public class VerB extends javax.swing.JPanel {
                 adelanteButton.setEnabled(false);
             atrasButton.setEnabled(true);
         } catch (SQLException ex) {
-            System.out.println("error al moverse adelante");
+            try {
+                throw new ExcepcionPropia(8);
+            } catch (ExcepcionPropia ex1) {
+                JOptionPane.showMessageDialog(null, ex1.getErrorReciente());
+            }
         }
     }//GEN-LAST:event_adelanteButtonActionPerformed
 
@@ -342,17 +368,22 @@ public class VerB extends javax.swing.JPanel {
         // TODO add your handling code here:
         try {
             PreparedStatement p = Conexion.getUpdatable(TodasLasConsultas.get6());
-        java.util.Date fechaApertura = jXDatePicker1.getDate();       
-        java.sql.Date dat = new java.sql.Date(fechaApertura.getTime());
-        p.setDate(1, dat);
-        p.setString(2, rs.getString(1));
-        p.setInt(3, rs.getInt(2));
-        if (p.executeUpdate()== 0) System.out.println("No se realizo el guardado de fecha");
-        
+            java.util.Date fechaApertura = jXDatePicker1.getDate();       
+            java.sql.Date dat = new java.sql.Date(fechaApertura.getTime());
+            p.setDate(1, dat);
+            p.setString(2, rs.getString(1));
+            p.setInt(3, rs.getInt(2));
+            if (p.executeUpdate()== 0) 
+                throw new ExcepcionPropia(9);
             p.close();
         } catch (SQLException ex) {
-            Logger.getLogger(VerB.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Error en fecha modificada de verB");
+            try {
+                throw new ExcepcionPropia(9);
+            } catch (ExcepcionPropia ex1) {
+                JOptionPane.showMessageDialog(null, ex1.getErrorReciente());
+            }
+        } catch (ExcepcionPropia ex) {
+            JOptionPane.showMessageDialog(null, ex.getErrorReciente());
         }
     }//GEN-LAST:event_jXDatePicker1ActionPerformed
 

@@ -1,14 +1,18 @@
 00:------------------------------(2,1,30)
 01:Error validar derby postgres
-02:Error conectar usuario
-03:
-04:
-05:
-06:
-07:
-08:
-09:
-10:
-11:
-12:
-13:Soy un error inutil
+02:Error al conectar usuario
+03:Error Conexion updateble
+04:Error Conexion regular
+05:Error Conexion
+06:Error de lectura de tabla B
+07:Error en el tratado de imagen
+08:Error al moverse con botones
+09:Error guardado de la fecha
+10:Error de lectura de tabla C
+11:Error en el insertado de C
+12:Error seleccion de descuento
+13:Error de insertado de C
+14:Error de copiado de imagen
+15:Error de insertado de B
+16:No existe tal usuario
+17:Error en la creacion del C

@@ -32,7 +32,7 @@ public class Validacion {
         return validacion;
     }
     
-    public Validacion() throws ClassNotFoundException, SQLException {
+    public Validacion() throws ClassNotFoundException, SQLException, ExcepcionPropia {
         Connection conderby;
         String b = File.separator;
         String bdd = System.getProperty("user.dir")+b+"Bases_de_datos"+b+"BDDerby";

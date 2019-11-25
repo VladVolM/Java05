@@ -6,6 +6,7 @@
 package Vistas;
 
 import Controlador.Conexion;
+import Controlador.ExcepcionPropia;
 import Modelo.CTabla;
 import Modelo.TodasLasConsultas;
 import java.sql.PreparedStatement;
@@ -14,8 +15,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -31,15 +31,16 @@ public class VerC extends javax.swing.JPanel {
      * @param c
      * @param i
      * @throws java.sql.SQLException
+     * @throws Controlador.ExcepcionPropia
      */
-    public VerC(Collection<Integer> c,int i) throws SQLException {
+    public VerC(Collection<Integer> c,int i) throws SQLException, ExcepcionPropia {
         initComponents();
         paraInsertado=i;
         origenLabel.setText("Has entrado desde B: "+ i);
         Iterator itr = c.iterator();
         while (itr.hasNext()){
             PreparedStatement p = Conexion.getPS(TodasLasConsultas.get8());
-            p.setInt(1,(int)itr.next());//Funciona???
+            p.setInt(1,(int)itr.next());
             ResultSet rs = p.executeQuery();
 
             while (rs.next()){
@@ -49,7 +50,7 @@ public class VerC extends javax.swing.JPanel {
         }
         insertarTabla();
     }
-    //////////////VALOR CALCULADO AUTOMATICO POR HACER
+
     private void insertarTabla(){//Introduce la collection dentro de las tablas
         Iterator itr=tabla.iterator();
         CTabla c;
@@ -146,8 +147,13 @@ public class VerC extends javax.swing.JPanel {
         try {
             ((Menu)SwingUtilities.getWindowAncestor(this)).insertarC(paraInsertado);//para ver el menu de insertar C
         } catch (SQLException ex) {
-            System.out.println("ERROR al usar boton insertar C");
-            Logger.getLogger(InsertarC.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                throw new ExcepcionPropia(11);
+            } catch (ExcepcionPropia ex1) {
+                JOptionPane.showMessageDialog(null, ex1.getErrorReciente());
+            }
+        } catch (ExcepcionPropia ex) {
+            JOptionPane.showMessageDialog(null, ex.getErrorReciente());
         }
     }//GEN-LAST:event_insertarButtonActionPerformed
 

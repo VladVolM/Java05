@@ -54,4 +54,8 @@ public class TodasLasConsultas {
         return "Insert into CTable values(?,?,?,?)";
     }
     
+    public static String get12() {
+        return "select codigo from DTable";
+    }
+    
 }
