@@ -38,6 +38,7 @@ public class VerB extends javax.swing.JPanel {
     private VerC c;
     private BTabla b;
     private String recuerdaNif=null;
+    private String n;
 
     public String getNif() {
         return recuerdaNif;
@@ -54,7 +55,7 @@ public class VerB extends javax.swing.JPanel {
      */
     public VerB(String nif) throws SQLException, ExcepcionPropia {
         initComponents();
-
+        n=nif;
         new Validacion(nif);
 
         if(nif!=null){
@@ -79,9 +80,6 @@ public class VerB extends javax.swing.JPanel {
         }else throw new ExcepcionPropia(16);
         rs.first();// para que empieze por ahí
         verTablaB();
-        atrasButton.setEnabled(false);
-        if(rs.isLast())
-            adelanteButton.setEnabled(false);
     }
 
     private void verTablaB() {
@@ -93,6 +91,12 @@ public class VerB extends javax.swing.JPanel {
             Image dimg = img.getScaledInstance(imageLabel.getPreferredSize().width, imageLabel.getPreferredSize().height,Image.SCALE_SMOOTH);//usar buffer para CAMBIAR TAMAÑO
             imageLabel.setIcon(new ImageIcon(dimg));//representa imagen
             jXDatePicker1.setDate(rs.getDate(4));
+            atrasButton.setEnabled(true);
+            adelanteButton.setEnabled(true);
+            if(rs.isLast())
+                adelanteButton.setEnabled(false);
+            if(rs.isFirst())
+                atrasButton.setEnabled(false);
         } catch (IOException | SQLException e) {
             try {
                 throw new ExcepcionPropia(6);
@@ -101,6 +105,19 @@ public class VerB extends javax.swing.JPanel {
             }
         }
         
+    }
+    
+    public void restart(int co) throws ExcepcionPropia, SQLException{
+        //para el reinicio de este apartado
+        PreparedStatement p;
+        Conexion.realizarConexion("postgres", "example");
+        p = Conexion.getUpdatable(TodasLasConsultas.get4());
+        p.setString(1, n);
+        rs = p.executeQuery();
+        rs.first();
+        while(rs.getInt(2)!=co)
+            rs.next();
+        verTablaB();
     }
         
     /**
@@ -273,13 +290,15 @@ public class VerB extends javax.swing.JPanel {
                 Image dimg = img.getScaledInstance(imageLabel.getPreferredSize().width, imageLabel.getPreferredSize().height,Image.SCALE_SMOOTH);//usar buffer para CAMBIAR TAMAÑO
                 imageLabel.setIcon(new ImageIcon(dimg));//representa imagen
                 //update a la imagen
-                PreparedStatement p = Conexion.getUpdatable(TodasLasConsultas.get5());
+                PreparedStatement p = Conexion.getUpdatable(TodasLasConsultas.get5()),p2;
                 p.setString(1, stringNombreImagen);
                 p.setString(2, rs.getString(1));
-                p.setInt(3, rs.getInt(2));
+                int codigoTemporal=rs.getInt(2);
+                p.setInt(3, codigoTemporal);
                 if (p.executeUpdate()== 0) 
                     throw new ExcepcionPropia(7);
                 p.close();
+                restart(codigoTemporal);
             } catch (IOException | SQLException e) {
                 try {
                     throw new ExcepcionPropia(7);
@@ -297,9 +316,7 @@ public class VerB extends javax.swing.JPanel {
         try {
             rs.previous();
             verTablaB();
-            if(rs.isFirst())
-                atrasButton.setEnabled(false);
-            adelanteButton.setEnabled(true);
+
         } catch (SQLException ex) {
             try {
                 throw new ExcepcionPropia(8);
@@ -352,9 +369,7 @@ public class VerB extends javax.swing.JPanel {
         try {
             rs.next();
             verTablaB();
-            if(rs.isLast())
-                adelanteButton.setEnabled(false);
-            atrasButton.setEnabled(true);
+            
         } catch (SQLException ex) {
             try {
                 throw new ExcepcionPropia(8);
@@ -367,17 +382,20 @@ public class VerB extends javax.swing.JPanel {
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
         // TODO add your handling code here:
         try {
-            PreparedStatement p = Conexion.getUpdatable(TodasLasConsultas.get6());
-            java.util.Date fecha = jXDatePicker1.getDate(); 
+            PreparedStatement p = Conexion.getUpdatable(TodasLasConsultas.get6()),p2;
+            java.util.Date fecha = jXDatePicker1.getDate();
+            System.out.println(fecha.getYear());
             if (fecha.getYear()<100)//si esta debajo de 2000
                 throw new ExcepcionPropia(18);
             java.sql.Date dat = new java.sql.Date(fecha.getTime());
             p.setDate(1, dat);
             p.setString(2, rs.getString(1));
-            p.setInt(3, rs.getInt(2));
+            int codigoTemporal =rs.getInt(2);
+            p.setInt(3, codigoTemporal);
             if (p.executeUpdate()== 0) 
                 throw new ExcepcionPropia(9);
             p.close();
+            restart(codigoTemporal);
         } catch (SQLException ex) {
             try {
                 throw new ExcepcionPropia(9);
