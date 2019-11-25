@@ -5,13 +5,22 @@
  */
 package Controlador;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  *
  * @author alumno
  */
 public class ControlDeFichero {
     
-    
+    public static void escribirLog(String s) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("ERRORES/log.txt",true));
+        writer.write(s);
+        writer.close();
+        
+    }
     /*
     
     // Java Program to illustrate reading from FileReader 
